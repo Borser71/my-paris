@@ -279,14 +279,9 @@
     <div class="container">
       <h1>Париж: интересные места</h1>
       <p>
-        Краткий гид по самым известным и атмосферным достопримечательностям Парижа.        
+        Краткий гид по самым известным и атмосферным достопримечательностям Парижа.
+        Этот файл можно открыть в браузере и при желании сохранить в PDF.
       </p>
-
-      <div class="tips">
-        <strong>Как добавить свои фото:</strong> замени значения в `src` у тегов `img`
-        на ссылки на изображения или пути к файлам на твоём компьютере.
-        <br><strong>Совет:</strong> Нажми на любое фото, чтобы открыть его в увеличенном виде.
-      </div>
     </div>
   </header>
 
@@ -444,7 +439,6 @@
       const modalCaption = document.getElementById('modalCaption');
       const closeBtn = document.getElementById('modalClose');
 
-      // Находим все картинки в карточках
       const images = document.querySelectorAll('.card img');
 
       function openModal(imgElement) {
@@ -452,20 +446,16 @@
         modalImg.src = imgElement.src;
         modalImg.alt = imgElement.alt;
 
-        // Показываем подпись, если есть атрибут data-caption
         const caption = imgElement.getAttribute('data-caption') || imgElement.alt || '';
         modalCaption.textContent = caption;
         modalCaption.style.display = caption ? 'block' : 'none';
 
-        // Блокируем прокрутку страницы
         document.body.style.overflow = 'hidden';
       }
 
       function closeModal() {
         modal.classList.remove('active');
         document.body.style.overflow = '';
-        // Очищаем src, чтобы при закрытии не грузилось лишнее
-        // (но не сразу, чтобы анимация закрытия была плавной)
         setTimeout(() => {
           if (!modal.classList.contains('active')) {
             modalImg.src = '';
@@ -473,7 +463,6 @@
         }, 400);
       }
 
-      // Обработчики клика по картинкам
       images.forEach(img => {
         img.addEventListener('click', function(e) {
           e.stopPropagation();
@@ -481,17 +470,14 @@
         });
       });
 
-      // Закрытие по кнопке
       closeBtn.addEventListener('click', closeModal);
 
-      // Закрытие по клику вне картинки (на фон)
       modal.addEventListener('click', function(e) {
         if (e.target === modal) {
           closeModal();
         }
       });
 
-      // Закрытие по клавише ESC
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && modal.classList.contains('active')) {
           closeModal();
