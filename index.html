@@ -134,6 +134,37 @@
       color: var(--accent);
     }
 
+    /* ===== КНОПКА СКАЧАТЬ PDF ===== */
+    .pdf-section {
+      text-align: center;
+      padding: 12px 0 8px;
+    }
+
+    .pdf-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 16px 42px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.25s, transform 0.2s, box-shadow 0.25s;
+      box-shadow: 0 6px 20px rgba(139, 30, 63, 0.3);
+      letter-spacing: 0.5px;
+    }
+
+    .pdf-btn:hover {
+      background: #6d1733;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(139, 30, 63, 0.4);
+    }
+
+    .pdf-btn:active {
+      transform: translateY(0px);
+    }
+
     /* ===== МОДАЛЬНОЕ ОКНО ===== */
     .modal {
       display: none;
@@ -173,12 +204,13 @@
       height: auto;
     }
 
+    /* ===== КРЕСТИК УМЕНЬШЕН В 2 РАЗА ===== */
     .modal-close {
       position: absolute;
-      top: -10px;
-      right: -10px;
+      top: -6px;
+      right: -6px;
       color: #ffffff;
-      font-size: 40px;
+      font-size: 20px;
       font-weight: bold;
       cursor: pointer;
       transition: color 0.2s, transform 0.2s;
@@ -187,8 +219,8 @@
       background: rgba(0, 0, 0, 0.5);
       border: none;
       border-radius: 50%;
-      width: 48px;
-      height: 48px;
+      width: 28px;
+      height: 28px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -279,6 +311,7 @@
       }
     }
 
+    /* ===== ПЕЧАТЬ (PDF) ===== */
     @media print {
       body { background: white; }
       .hero { padding-top: 20px; }
@@ -287,15 +320,17 @@
       .card img:hover { opacity: 1; }
       .footer { padding-bottom: 20px; }
       .modal { display: none !important; }
+      .pdf-section { display: none !important; }
+      .tips { display: none !important; }
     }
 
     @media (max-width: 600px) {
       .modal-close {
-        top: 14px;
-        right: 14px;
-        width: 40px;
-        height: 40px;
-        font-size: 30px;
+        top: 10px;
+        right: 10px;
+        width: 24px;
+        height: 24px;
+        font-size: 16px;
       }
 
       .modal-caption {
@@ -323,6 +358,13 @@
         font-size: 12px;
         padding: 4px 14px;
       }
+
+      .pdf-btn {
+        font-size: 16px;
+        padding: 14px 30px;
+        width: 100%;
+        max-width: 320px;
+      }
     }
   </style>
 </head>
@@ -331,7 +373,8 @@
     <div class="container">
       <h1>Париж: интересные места</h1>
       <p>
-        Краткий гид по самым известным и атмосферным достопримечательностям Парижа.        
+        Краткий гид по самым известным и атмосферным достопримечательностям Парижа.
+        Этот файл можно открыть в браузере и при желании сохранить в PDF.
       </p>
 
       <div class="tips">
@@ -398,6 +441,13 @@
         </div>
       </article>
     </section>
+
+    <!-- ===== КНОПКА СКАЧАТЬ PDF (ПЕРЕД ФУТЕРОМ) ===== -->
+    <div class="pdf-section">
+      <button class="pdf-btn" onclick="window.print()">
+        📥 Скачать PDF-версию гида
+      </button>
+    </div>
   </main>
 
   <footer class="footer">
