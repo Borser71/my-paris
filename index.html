@@ -134,7 +134,7 @@
       color: var(--accent);
     }
 
-    /* Стили для модального окна */
+    /* ===== МОДАЛЬНОЕ ОКНО ===== */
     .modal {
       display: none;
       position: fixed;
@@ -143,7 +143,7 @@
       top: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.85);
+      background-color: rgba(0, 0, 0, 0.88);
       justify-content: center;
       align-items: center;
       animation: fadeIn 0.3s ease;
@@ -153,9 +153,18 @@
       display: flex;
     }
 
+    .modal-content-wrapper {
+      position: relative;
+      max-width: 92vw;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
     .modal-content {
       max-width: 90vw;
-      max-height: 90vh;
+      max-height: 82vh;
       object-fit: contain;
       border-radius: 12px;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
@@ -166,42 +175,92 @@
 
     .modal-close {
       position: absolute;
-      top: 30px;
-      right: 40px;
+      top: -10px;
+      right: -10px;
       color: #ffffff;
-      font-size: 48px;
+      font-size: 40px;
       font-weight: bold;
       cursor: pointer;
       transition: color 0.2s, transform 0.2s;
       line-height: 1;
       z-index: 1001;
-      background: none;
+      background: rgba(0, 0, 0, 0.5);
       border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 0;
     }
 
     .modal-close:hover {
       color: #d4a373;
-      transform: scale(1.15);
+      transform: scale(1.1);
+      background: rgba(0, 0, 0, 0.7);
     }
 
     .modal-caption {
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
+      margin-top: 16px;
       color: #ffffff;
       font-size: 18px;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 12px 28px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 10px 28px;
       border-radius: 999px;
       backdrop-filter: blur(4px);
       text-align: center;
       max-width: 80%;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .modal-counter {
+      margin-top: 10px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 14px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 6px 18px;
+      border-radius: 999px;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ===== СТРЕЛКИ ===== */
+    .modal-arrow {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 52px;
+      font-weight: 300;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s, background 0.2s;
+      z-index: 1002;
+      background: rgba(0, 0, 0, 0.3);
+      border: none;
+      border-radius: 50%;
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      line-height: 1;
+      backdrop-filter: blur(4px);
+      user-select: none;
+    }
+
+    .modal-arrow:hover {
+      color: #ffffff;
+      background: rgba(0, 0, 0, 0.6);
+      transform: translateY(-50%) scale(1.08);
+    }
+
+    .modal-arrow.prev {
+      left: 24px;
+    }
+
+    .modal-arrow.next {
+      right: 24px;
     }
 
     @keyframes fadeIn {
@@ -212,7 +271,7 @@
     @keyframes zoomIn {
       from {
         opacity: 0;
-        transform: scale(0.85);
+        transform: scale(0.9);
       }
       to {
         opacity: 1;
@@ -221,55 +280,48 @@
     }
 
     @media print {
-      body {
-        background: white;
-      }
-
-      .hero {
-        padding-top: 20px;
-      }
-
-      .card {
-        box-shadow: none;
-        border: 1px solid #ddd;
-        break-inside: avoid;
-      }
-
-      .card img {
-        cursor: default;
-      }
-
-      .card img:hover {
-        opacity: 1;
-      }
-
-      .footer {
-        padding-bottom: 20px;
-      }
-
-      .modal {
-        display: none !important;
-      }
+      body { background: white; }
+      .hero { padding-top: 20px; }
+      .card { box-shadow: none; border: 1px solid #ddd; break-inside: avoid; }
+      .card img { cursor: default; }
+      .card img:hover { opacity: 1; }
+      .footer { padding-bottom: 20px; }
+      .modal { display: none !important; }
     }
 
     @media (max-width: 600px) {
       .modal-close {
-        top: 20px;
-        right: 24px;
-        font-size: 38px;
+        top: 14px;
+        right: 14px;
+        width: 40px;
+        height: 40px;
+        font-size: 30px;
       }
 
       .modal-caption {
-        bottom: 30px;
+        margin-top: 12px;
         font-size: 15px;
-        padding: 10px 20px;
-        white-space: normal;
+        padding: 8px 18px;
         max-width: 90%;
       }
 
       .modal-content {
         max-width: 95vw;
-        max-height: 85vh;
+        max-height: 70vh;
+      }
+
+      .modal-arrow {
+        font-size: 34px;
+        width: 44px;
+        height: 44px;
+      }
+
+      .modal-arrow.prev { left: 8px; }
+      .modal-arrow.next { right: 8px; }
+
+      .modal-counter {
+        font-size: 12px;
+        padding: 4px 14px;
       }
     }
   </style>
@@ -284,139 +336,65 @@
 
       <div class="tips">
         <strong>Совет:</strong> Нажми на любое фото, чтобы открыть его в увеличенном виде.
+        Используй стрелки ← → для навигации.
       </div>
     </div>
   </header>
 
   <main class="container">
     <section class="places">
+      <!-- 1 -->
       <article class="card">
         <img src="https://github.com/Borser71/my-paris/raw/main/tower.png" alt="Эйфелева башня" data-caption="Эйфелева башня — главный символ Парижа">
         <div class="card-content">
           <div class="card-number">1</div>
           <h2>Эйфелева башня</h2>
-          <p>
-            Главный символ Парижа и одна из самых узнаваемых достопримечательностей мира.
-            Особенно красиво выглядит вечером, когда включается подсветка.
-          </p>
+          <p>Главный символ Парижа и одна из самых узнаваемых достопримечательностей мира. Особенно красиво выглядит вечером, когда включается подсветка.</p>
           <div class="photo-note">Фото: башня на закате или ночной вид с огнями.</div>
         </div>
       </article>
 
+      <!-- 2 -->
       <article class="card">
         <img src="https://github.com/Borser71/my-paris/raw/main/louvre.png" alt="Лувр" data-caption="Лувр — крупнейший музей мира">
         <div class="card-content">
           <div class="card-number">2</div>
           <h2>Лувр</h2>
-          <p>
-            Один из крупнейших музеев мира, где хранятся тысячи шедевров, включая «Мону Лизу».
-            Даже само здание и стеклянная пирамида уже стоят отдельного внимания.
-          </p>
+          <p>Один из крупнейших музеев мира, где хранятся тысячи шедевров, включая «Мону Лизу». Даже само здание и стеклянная пирамида уже стоят отдельного внимания.</p>
           <div class="photo-note">Фото: стеклянная пирамида Лувра днём или вечером.</div>
         </div>
       </article>
 
+      <!-- 3 -->
       <article class="card">
         <img src="https://github.com/Borser71/my-paris/raw/main/monmart.png" alt="Монмартр" data-caption="Монмартр — атмосферный район Парижа">
         <div class="card-content">
           <div class="card-number">3</div>
           <h2>Монмартр</h2>
-          <p>
-            Атмосферный район с узкими улочками, уличными художниками и особым парижским шармом.
-            Это одно из самых романтичных мест города.
-          </p>
+          <p>Атмосферный район с узкими улочками, уличными художниками и особым парижским шармом. Это одно из самых романтичных мест города.</p>
           <div class="photo-note">Фото: лестницы Монмартра, художники или вид на крыши Парижа.</div>
         </div>
       </article>
 
+      <!-- 4 -->
       <article class="card">
         <img src="https://github.com/Borser71/my-paris/raw/main/basilica.png" alt="Базилика Сакре-Кёр" data-caption="Сакре-Кёр — белоснежный храм на Монмартре">
         <div class="card-content">
           <div class="card-number">4</div>
           <h2>Базилика Сакре-Кёр</h2>
-          <p>
-            Белоснежный храм на вершине холма Монмартр. Отсюда открывается красивый
-            панорамный вид на город.
-          </p>
+          <p>Белоснежный храм на вершине холма Монмартр. Отсюда открывается красивый панорамный вид на город.</p>
           <div class="photo-note">Фото: фасад базилики или панорама Парижа с площади перед ней.</div>
         </div>
       </article>
 
+      <!-- 5 -->
       <article class="card">
         <img src="https://github.com/Borser71/my-paris/raw/main/sobor.png" alt="Собор Нотр-Дам" data-caption="Нотр-Дам — готический собор на острове Сите">
         <div class="card-content">
           <div class="card-number">5</div>
           <h2>Собор Нотр-Дам</h2>
-          <p>
-            Знаменитый готический собор на острове Сите, один из важнейших архитектурных
-            символов Франции. Впечатляет фасадом, витражами и историей.
-          </p>
+          <p>Знаменитый готический собор на острове Сите, один из важнейших архитектурных символов Франции. Впечатляет фасадом, витражами и историей.</p>
           <div class="photo-note">Фото: вид на собор с набережной Сены.</div>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="https://placehold.co/1200x700?text=Сена" alt="Сена и набережные" data-caption="Сена — главная река Парижа">
-        <div class="card-content">
-          <div class="card-number">6</div>
-          <h2>Сена и прогулка по набережным</h2>
-          <p>
-            Река Сена делит Париж на две части и делает город особенно живописным.
-            Прогулка вдоль воды или круиз на кораблике — отличный способ увидеть город с другого ракурса.
-          </p>
-          <div class="photo-note">Фото: мосты через Сену, прогулочный кораблик, вечерняя подсветка.</div>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="https://placehold.co/1200x700?text=Музей+Орсе" alt="Музей Орсе" data-caption="Музей Орсе — бывший вокзал, теперь музей импрессионистов">
-        <div class="card-content">
-          <div class="card-number">7</div>
-          <h2>Музей Орсе</h2>
-          <p>
-            Известный музей искусства, расположенный в здании бывшего вокзала.
-            Особенно знаменит коллекцией импрессионистов.
-          </p>
-          <div class="photo-note">Фото: большие часы музея или главный зал.</div>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="https://placehold.co/1200x700?text=Триумфальная+арка" alt="Триумфальная арка" data-caption="Триумфальная арка — символ военных побед Франции">
-        <div class="card-content">
-          <div class="card-number">8</div>
-          <h2>Триумфальная арка</h2>
-          <p>
-            Один из главных памятников Парижа, стоящий на площади Шарля де Голля.
-            С её смотровой площадки открывается красивый вид на Елисейские поля.
-          </p>
-          <div class="photo-note">Фото: арка вечером или вид сверху на проспекты.</div>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="https://placehold.co/1200x700?text=Елисейские+поля" alt="Елисейские поля" data-caption="Елисейские поля — главная улица Парижа">
-        <div class="card-content">
-          <div class="card-number">9</div>
-          <h2>Елисейские поля</h2>
-          <p>
-            Одна из самых известных улиц мира с магазинами, кафе и праздничной атмосферой.
-            Это место часто ассоциируется с парадным и ярким Парижем.
-          </p>
-          <div class="photo-note">Фото: проспект с огнями, витринами и видом на арку.</div>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="https://placehold.co/1200x700?text=Люксембургский+сад" alt="Люксембургский сад" data-caption="Люксембургский сад — идеальное место для отдыха">
-        <div class="card-content">
-          <div class="card-number">10</div>
-          <h2>Люксембургский сад</h2>
-          <p>
-            Спокойное и красивое место для прогулок, отдыха и пикников.
-            Здесь любят бывать и туристы, и сами парижане.
-          </p>
-          <div class="photo-note">Фото: аллеи сада, фонтаны, зелёные газоны и стулья.</div>
         </div>
       </article>
     </section>
@@ -428,11 +406,17 @@
     </div>
   </footer>
 
-  <!-- Модальное окно -->
+  <!-- ===== МОДАЛЬНОЕ ОКНО ===== -->
   <div class="modal" id="imageModal" role="dialog" aria-label="Просмотр изображения">
-    <button class="modal-close" id="modalClose" aria-label="Закрыть">&times;</button>
-    <img class="modal-content" id="modalImage" src="" alt="Увеличенное изображение">
-    <div class="modal-caption" id="modalCaption"></div>
+    <button class="modal-arrow prev" id="prevArrow" aria-label="Предыдущее фото">‹</button>
+    <button class="modal-arrow next" id="nextArrow" aria-label="Следующее фото">›</button>
+
+    <div class="modal-content-wrapper">
+      <button class="modal-close" id="modalClose" aria-label="Закрыть">×</button>
+      <img class="modal-content" id="modalImage" src="" alt="Увеличенное изображение">
+      <div class="modal-caption" id="modalCaption"></div>
+      <div class="modal-counter" id="modalCounter"></div>
+    </div>
   </div>
 
   <script>
@@ -440,19 +424,30 @@
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
       const modalCaption = document.getElementById('modalCaption');
+      const modalCounter = document.getElementById('modalCounter');
       const closeBtn = document.getElementById('modalClose');
+      const prevBtn = document.getElementById('prevArrow');
+      const nextBtn = document.getElementById('nextArrow');
 
-      const images = document.querySelectorAll('.card img');
+      // Собираем все картинки из карточек в массив
+      const images = Array.from(document.querySelectorAll('.card img'));
+      let currentIndex = 0;
 
-      function openModal(imgElement) {
+      function openModal(index) {
+        if (index < 0) index = images.length - 1;
+        if (index >= images.length) index = 0;
+        currentIndex = index;
+
+        const img = images[currentIndex];
         modal.classList.add('active');
-        modalImg.src = imgElement.src;
-        modalImg.alt = imgElement.alt;
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
 
-        const caption = imgElement.getAttribute('data-caption') || imgElement.alt || '';
+        const caption = img.getAttribute('data-caption') || img.alt || '';
         modalCaption.textContent = caption;
         modalCaption.style.display = caption ? 'block' : 'none';
 
+        modalCounter.textContent = `${currentIndex + 1} / ${images.length}`;
         document.body.style.overflow = 'hidden';
       }
 
@@ -466,23 +461,55 @@
         }, 400);
       }
 
-      images.forEach(img => {
+      function navigate(direction) {
+        if (!modal.classList.contains('active')) return;
+        const newIndex = currentIndex + direction;
+        openModal(newIndex);
+      }
+
+      // === ОТКРЫТИЕ ПО КЛИКУ НА КАРТИНКУ ===
+      images.forEach((img, index) => {
         img.addEventListener('click', function(e) {
           e.stopPropagation();
-          openModal(this);
+          openModal(index);
         });
       });
 
+      // === СТРЕЛКИ ===
+      prevBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        navigate(-1);
+      });
+
+      nextBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        navigate(1);
+      });
+
+      // === КЛАВИАТУРА ===
+      document.addEventListener('keydown', function(e) {
+        if (!modal.classList.contains('active')) return;
+
+        switch (e.key) {
+          case 'ArrowLeft':
+            e.preventDefault();
+            navigate(-1);
+            break;
+          case 'ArrowRight':
+            e.preventDefault();
+            navigate(1);
+            break;
+          case 'Escape':
+            closeModal();
+            break;
+        }
+      });
+
+      // === ЗАКРЫТИЕ ===
       closeBtn.addEventListener('click', closeModal);
 
       modal.addEventListener('click', function(e) {
         if (e.target === modal) {
-          closeModal();
-        }
-      });
-
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
           closeModal();
         }
       });
