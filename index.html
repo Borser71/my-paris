@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Париж — интересные места</title>
+  <style>
+    :root {
+      --bg: #f7f3ee;
+      --card: #ffffff;
+      --text: #2d2d2d;
+      --muted: #6b6b6b;
+      --accent: #8b1e3f;
+      --accent-2: #d4a373;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(180deg, rgba(139, 30, 63, 0.08), transparent 260px),
+        var(--bg);
+      line-height: 1.6;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      padding: 72px 0 40px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: clamp(32px, 5vw, 56px);
+      color: var(--accent);
+    }
+
+    .hero p {
+      margin: 0 auto;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .places {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      padding: 24px 0 48px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      background: #ececec;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card-number {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(139, 30, 63, 0.1);
+      color: var(--accent);
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+    }
+
+    .card p {
+      margin: 0 0 12px;
+    }
+
+    .photo-note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer {
+      padding: 24px 0 60px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .tips {
+      margin: 12px auto 0;
+      max-width: 900px;
+      background: #fff8f1;
+      border: 1px solid rgba(212, 163, 115, 0.35);
+      border-radius: 16px;
+      padding: 16px 18px;
+      text-align: left;
+      box-shadow: var(--shadow);
+    }
+
+    .tips strong {
+      color: var(--accent);
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .hero {
+        padding-top: 20px;
+      }
+
+      .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+        break-inside: avoid;
+      }
+[17.06.2026 1:43] Turbo_GPT_bot: .footer {
+        padding-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <h1>Париж: интересные места</h1>
+      <p>
+        Краткий гид по самым известным и атмосферным достопримечательностям Парижа.
+        Этот файл можно открыть в браузере и при желании сохранить в PDF.
+      </p>
+
+      <div class="tips">
+        <strong>Как добавить свои фото:</strong> замени значения в `src` у тегов `img`
+        на ссылки на изображения или пути к файлам на твоём компьютере.
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="places">
+      <article class="card">
+        <img src="https://placehold.co/1200x700?text=Эйфелева+башня" alt="Эйфелева башня">
+        <div class="card-content">
+          <div class="card-number">1</div>
+          <h2>Эйфелева башня</h2>
+          <p>
+            Главный символ Парижа и одна из самых узнаваемых достопримечательностей мира.
+            Особенно красиво выглядит вечером, когда включается подсветка.
+          </p>
+          <div class="photo-note">Фото: башня на закате или ночной вид с огнями.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="https://placehold.co/1200x700?text=Лувр" alt="Лувр">
+        <div class="card-content">
+          <div class="card-number">2</div>
+          <h2>Лувр</h2>
+          <p>
+            Один из крупнейших музеев мира, где хранятся тысячи шедевров, включая «Мону Лизу».
+            Даже само здание и стеклянная пирамида уже стоят отдельного внимания.
+          </p>
+          <div class="photo-note">Фото: стеклянная пирамида Лувра днём или вечером.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="https://placehold.co/1200x700?text=Монмартр" alt="Монмартр">
+        <div class="card-content">
+          <div class="card-number">3</div>
+          <h2>Монмартр</h2>
+          <p>
+            Атмосферный район с узкими улочками, уличными художниками и особым парижским шармом.
+            Это одно из самых романтичных мест города.
+          </p>
+          <div class="photo-note">Фото: лестницы Монмартра, художники или вид на крыши Парижа.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="https://placehold.co/1200x700?text=Сакре-Кёр" alt="Базилика Сакре-Кёр">
+        <div class="card-content">
+          <div class="card-number">4</div>
+          <h2>Базилика Сакре-Кёр</h2>
+          <p>
+            Белоснежный храм на вершине холма Монмартр. Отсюда открывается красивый
+            панорамный вид на город.
+          </p>
+          <div class="photo-note">Фото: фасад базилики или панорама Парижа с площади перед ней.</div>
+        </div>
+      </article>
+[17.06.2026 1:43] Turbo_GPT_bot: <article class="card">
+        <img src="https://placehold.co/1200x700?text=Нотр-Дам" alt="Собор Нотр-Дам">
+        <div class="card-content">
+          <div class="card-number">5</div>
+          <h2>Собор Нотр-Дам</h2>
+          <p>
+            Знаменитый готический собор на острове Сите, один из важнейших архитектурных
+            символов Франции. Впечатляет фасадом, витражами и историей.
+          </p>
+          <div class="photo-note">Фото: вид на собор с набережной Сены.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="https://placehold.co/1200x700?text=Сена" alt="Сена и набережные">
+        <div class="card-content">
+          <div class="card-number">6</div>
+          <h2>Сена и прогулка по набережным</h2>
+          <p>
+            Река Сена делит Париж на две части и делает город особенно живописным.
+            Прогулка вдоль воды или круиз на кораблике — отличный способ увидеть город с другого ракурса.
+          </p>
+          <div class="photo-note">Фото: мосты через Сену, прогулочный кораблик, вечерняя подсветка.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="https://placehold.co/1200x700?text=Музей+Орсе" alt="Музей Орсе">
+        <div class="card-content">
+          <div class="card-number">7</div>
+          <h2>Музей Орсе</h2>
+          <p>
+            Известный музей искусства, расположенный в здании бывшего вокзала.
+            Особенно знаменит коллекцией импрессионистов.
+          </p>
+          <div class="photo-note">Фото: большие часы музея или главный зал.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="https://placehold.co/1200x700?text=Триумфальная+арка" alt="Триумфальная арка">
+        <div class="card-content">
+          <div class="card-number">8</div>
+          <h2>Триумфальная арка</h2>
+          <p>
+            Один из главных памятников Парижа, стоящий на площади Шарля де Голля.
+            С её смотровой площадки открывается красивый вид на Елисейские поля.
+          </p>
+          <div class="photo-note">Фото: арка вечером или вид сверху на проспекты.</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <img src="https://placehold.co/1200x700?text=Елисейские+поля" alt="Елисейские поля">
+        <div class="card-content">
+          <div class="card-number">9</div>
+          <h2>Елисейские поля</h2>
+          <p>
+            Одна из самых известных улиц мира с магазинами, кафе и праздничной атмосферой.
+            Это место часто ассоциируется с парадным и ярким Парижем.
+          </p>
+          <div class="photo-note">Фото: проспект с огнями, витринами и видом на арку.</div>
+        </div>
+      </article>
+[17.06.2026 1:43] Turbo_GPT_bot: <article class="card">
+        <img src="https://placehold.co/1200x700?text=Люксембургский+сад" alt="Люксембургский сад">
+        <div class="card-content">
+          <div class="card-number">10</div>
+          <h2>Люксембургский сад</h2>
+          <p>
+            Спокойное и красивое место для прогулок, отдыха и пикников.
+            Здесь любят бывать и туристы, и сами парижане.
+          </p>
+          <div class="photo-note">Фото: аллеи сада, фонтаны, зелёные газоны и стулья.</div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      Париж сочетает в себе историю, искусство, архитектуру и особую романтическую атмосферу.
+    </div>
+  </footer>
+</body>
+</html>
+
