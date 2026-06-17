@@ -195,7 +195,7 @@
 
     .modal-content {
       max-width: 90vw;
-      max-height: 82vh;
+      max-height: 78vh;
       object-fit: contain;
       border-radius: 12px;
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
@@ -233,7 +233,7 @@
     }
 
     .modal-caption {
-      margin-top: 16px;
+      margin-top: 14px;
       color: #ffffff;
       font-size: 18px;
       background: rgba(0, 0, 0, 0.6);
@@ -245,14 +245,43 @@
       border: 1px solid rgba(255, 255, 255, 0.12);
     }
 
-    .modal-counter {
+    /* ===== ПАНЕЛЬ УПРАВЛЕНИЯ СЛАЙД-ШОУ ===== */
+    .modal-controls {
       margin-top: 10px;
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 14px;
-      background: rgba(0, 0, 0, 0.4);
-      padding: 6px 18px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 8px 20px;
       border-radius: 999px;
       backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .modal-counter {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 14px;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    .modal-play-btn {
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 22px;
+      cursor: pointer;
+      transition: color 0.2s, transform 0.2s;
+      padding: 4px 8px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-play-btn:hover {
+      color: #d4a373;
+      transform: scale(1.1);
     }
 
     /* ===== СТРЕЛКИ ===== */
@@ -341,7 +370,7 @@
 
       .modal-content {
         max-width: 95vw;
-        max-height: 70vh;
+        max-height: 65vh;
       }
 
       .modal-arrow {
@@ -353,9 +382,18 @@
       .modal-arrow.prev { left: 8px; }
       .modal-arrow.next { right: 8px; }
 
+      .modal-controls {
+        padding: 6px 14px;
+        gap: 12px;
+      }
+
       .modal-counter {
         font-size: 12px;
-        padding: 4px 14px;
+        min-width: 40px;
+      }
+
+      .modal-play-btn {
+        font-size: 18px;
       }
 
       .pdf-btn {
@@ -377,7 +415,7 @@
 
       <div class="tips">
         <strong>Совет:</strong> Нажми на любое фото, чтобы открыть его в увеличенном виде.
-        Используй стрелки ← → для навигации.
+        Используй стрелки ← → для навигации или запусти слайд-шоу.
       </div>
     </div>
   </header>
@@ -518,7 +556,12 @@
       <button class="modal-close" id="modalClose" aria-label="Закрыть">×</button>
       <img class="modal-content" id="modalImage" src="" alt="Увеличенное изображение">
       <div class="modal-caption" id="modalCaption"></div>
-      <div class="modal-counter" id="modalCounter"></div>
+      
+      <!-- Панель управления слайд-шоу -->
+      <div class="modal-controls">
+        <button class="modal-play-btn" id="playBtn" aria-label="Воспроизвести/Пауза">⏸</button>
+        <span class="modal-counter" id="modalCounter">1 / 10</span>
+      </div>
     </div>
   </div>
 
@@ -531,18 +574,21 @@
       const closeBtn = document.getElementById('modalClose');
       const prevBtn = document.getElementById('prevArrow');
       const nextBtn = document.getElementById('nextArrow');
+      const playBtn = document.getElementById('playBtn');
 
       // Собираем все картинки из карточек в массив
       const images = Array.from(document.querySelectorAll('.card img'));
       let currentIndex = 0;
+      let slideInterval = null;
+      let isPlaying = true;
+      const SLIDE_DELAY = 5000; // 5 секунд
 
-      function openModal(index) {
+      function updateImage(index) {
         if (index < 0) index = images.length - 1;
         if (index >= images.length) index = 0;
         currentIndex = index;
 
         const img = images[currentIndex];
-        modal.classList.add('active');
         modalImg.src = img.src;
         modalImg.alt = img.alt;
 
@@ -551,10 +597,24 @@
         modalCaption.style.display = caption ? 'block' : 'none';
 
         modalCounter.textContent = `${currentIndex + 1} / ${images.length}`;
+      }
+
+      function openModal(index) {
+        // Останавливаем предыдущее слайд-шоу, если было
+        stopSlideshow();
+
+        modal.classList.add('active');
+        updateImage(index);
         document.body.style.overflow = 'hidden';
+
+        // Запускаем слайд-шоу
+        isPlaying = true;
+        playBtn.textContent = '⏸';
+        startSlideshow();
       }
 
       function closeModal() {
+        stopSlideshow();
         modal.classList.remove('active');
         document.body.style.overflow = '';
         setTimeout(() => {
@@ -566,8 +626,42 @@
 
       function navigate(direction) {
         if (!modal.classList.contains('active')) return;
+        // При ручной навигации сбрасываем таймер, но не останавливаем слайд-шоу полностью
+        stopSlideshow();
         const newIndex = currentIndex + direction;
-        openModal(newIndex);
+        updateImage(newIndex);
+        if (isPlaying) {
+          startSlideshow();
+        }
+      }
+
+      // === СЛАЙД-ШОУ ===
+      function startSlideshow() {
+        if (slideInterval) clearInterval(slideInterval);
+        slideInterval = setInterval(() => {
+          if (isPlaying && modal.classList.contains('active')) {
+            const nextIndex = (currentIndex + 1) % images.length;
+            updateImage(nextIndex);
+          }
+        }, SLIDE_DELAY);
+      }
+
+      function stopSlideshow() {
+        if (slideInterval) {
+          clearInterval(slideInterval);
+          slideInterval = null;
+        }
+      }
+
+      function togglePlay() {
+        if (!modal.classList.contains('active')) return;
+        isPlaying = !isPlaying;
+        playBtn.textContent = isPlaying ? '⏸' : '▶';
+        if (isPlaying) {
+          startSlideshow();
+        } else {
+          stopSlideshow();
+        }
       }
 
       // === ОТКРЫТИЕ ПО КЛИКУ НА КАРТИНКУ ===
@@ -589,6 +683,12 @@
         navigate(1);
       });
 
+      // === КНОПКА PLAY/PAUSE ===
+      playBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        togglePlay();
+      });
+
       // === КЛАВИАТУРА ===
       document.addEventListener('keydown', function(e) {
         if (!modal.classList.contains('active')) return;
@@ -604,6 +704,10 @@
             break;
           case 'Escape':
             closeModal();
+            break;
+          case ' ':
+            e.preventDefault();
+            togglePlay();
             break;
         }
       });
