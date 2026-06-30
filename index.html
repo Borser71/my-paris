@@ -58,6 +58,7 @@
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 24px;
       padding: 24px 0 48px;
+      align-items: stretch; /* по умолчанию, но оставим */
     }
 
     .card {
@@ -67,6 +68,7 @@
       box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
+      /* Высоту будем задавать через JS, поэтому убираем height: 100% */
     }
 
     .card img {
@@ -85,6 +87,9 @@
 
     .card-content {
       padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
     }
 
     .card-number {
@@ -101,15 +106,20 @@
     .card h2 {
       margin: 0 0 10px;
       font-size: 24px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .card p {
       margin: 0 0 12px;
+      flex: 1;
     }
 
     .photo-note {
       color: var(--muted);
       font-size: 14px;
+      margin-top: auto; /* прижимаем к низу */
     }
 
     .footer {
@@ -402,6 +412,10 @@
         width: 100%;
         max-width: 320px;
       }
+
+      .card h2 {
+        font-size: 18px;
+      }
     }
   </style>
 </head>
@@ -421,7 +435,7 @@
   </header>
 
   <main class="container">
-    <section class="places">
+    <section class="places" id="placesContainer">
       <!-- 1. Эйфелева башня -->
       <article class="card">
         <img src="https://paris.borser.site/images/1.png" alt="Эйфелева башня" data-caption="Эйфелева башня — главный символ Парижа">
@@ -477,12 +491,12 @@
         </div>
       </article>
 
-      <!-- 6. Сена -->
+      <!-- 6. Сена (изменён заголовок) -->
       <article class="card">
         <img src="https://paris.borser.site/images/6.png" alt="Сена и набережные" data-caption="Сена — главная река Парижа">
         <div class="card-content">
           <div class="card-number">6</div>
-          <h2>Сена и прогулка по набережным</h2>
+          <h2>Сена и набережная</h2>
           <p>Река Сена делит Париж на две части и делает город особенно живописным. Прогулка вдоль воды или круиз на кораблике — отличный способ увидеть город с другого ракурса.</p>
           <div class="photo-note">Фото: Сена</div>
         </div>
@@ -533,7 +547,7 @@
       </article>
     </section>
 
-    <!-- ===== КНОПКА СКАЧАТЬ PDF (ПЕРЕД ФУТЕРОМ) ===== -->
+    <!-- ===== КНОПКА СКАЧАТЬ PDF ===== -->
     <div class="pdf-section">
       <button class="pdf-btn" onclick="window.print()">
         📥 Скачать PDF-версию гида
@@ -566,6 +580,39 @@
   </div>
 
   <script>
+    // ===== ВЫРАВНИВАНИЕ ВЫСОТЫ КАРТОЧЕК =====
+    function equalizeCardHeights() {
+      const cards = document.querySelectorAll('.card');
+      if (cards.length === 0) return;
+      
+      // Сбрасываем высоту, чтобы получить естественные размеры
+      cards.forEach(card => card.style.height = 'auto');
+      
+      let maxHeight = 0;
+      cards.forEach(card => {
+        const h = card.offsetHeight;
+        if (h > maxHeight) maxHeight = h;
+      });
+      
+      // Применяем максимальную высоту ко всем карточкам
+      cards.forEach(card => {
+        card.style.height = maxHeight + 'px';
+      });
+    }
+
+    // Запускаем после загрузки страницы и при изменении размера окна
+    window.addEventListener('load', function() {
+      equalizeCardHeights();
+    });
+
+    // Пересчитываем при изменении размера окна (с задержкой, чтобы не тормозить)
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(equalizeCardHeights, 300);
+    });
+
+    // ===== ОСТАЛЬНОЙ JS (модальное окно, слайд-шоу) =====
     (function() {
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImage');
@@ -576,12 +623,11 @@
       const nextBtn = document.getElementById('nextArrow');
       const playBtn = document.getElementById('playBtn');
 
-      // Собираем все картинки из карточек в массив
       const images = Array.from(document.querySelectorAll('.card img'));
       let currentIndex = 0;
       let slideInterval = null;
       let isPlaying = true;
-      const SLIDE_DELAY = 5000; // 5 секунд
+      const SLIDE_DELAY = 5000;
 
       function updateImage(index) {
         if (index < 0) index = images.length - 1;
@@ -600,14 +646,10 @@
       }
 
       function openModal(index) {
-        // Останавливаем предыдущее слайд-шоу, если было
         stopSlideshow();
-
         modal.classList.add('active');
         updateImage(index);
         document.body.style.overflow = 'hidden';
-
-        // Запускаем слайд-шоу
         isPlaying = true;
         playBtn.textContent = '⏸';
         startSlideshow();
@@ -626,7 +668,6 @@
 
       function navigate(direction) {
         if (!modal.classList.contains('active')) return;
-        // При ручной навигации сбрасываем таймер, но не останавливаем слайд-шоу полностью
         stopSlideshow();
         const newIndex = currentIndex + direction;
         updateImage(newIndex);
@@ -635,7 +676,6 @@
         }
       }
 
-      // === СЛАЙД-ШОУ ===
       function startSlideshow() {
         if (slideInterval) clearInterval(slideInterval);
         slideInterval = setInterval(() => {
@@ -664,7 +704,6 @@
         }
       }
 
-      // === ОТКРЫТИЕ ПО КЛИКУ НА КАРТИНКУ ===
       images.forEach((img, index) => {
         img.addEventListener('click', function(e) {
           e.stopPropagation();
@@ -672,7 +711,6 @@
         });
       });
 
-      // === СТРЕЛКИ ===
       prevBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         navigate(-1);
@@ -683,13 +721,11 @@
         navigate(1);
       });
 
-      // === КНОПКА PLAY/PAUSE ===
       playBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         togglePlay();
       });
 
-      // === КЛАВИАТУРА ===
       document.addEventListener('keydown', function(e) {
         if (!modal.classList.contains('active')) return;
 
@@ -712,7 +748,6 @@
         }
       });
 
-      // === ЗАКРЫТИЕ ===
       closeBtn.addEventListener('click', closeModal);
 
       modal.addEventListener('click', function(e) {
